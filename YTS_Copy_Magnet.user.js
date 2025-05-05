@@ -1,12 +1,16 @@
 // ==UserScript==
-// @name         YTS.mx - Add Copy Magnet Button
-// @namespace    http://tampermonkey.net/
-// @version      1.3
-// @description  Add Copy Magnet Button for each quality of the movie on YTS.mx and display toast notification with icon after copying magnet link.
-// @author       Kamu
+// @name         YTS.mx - Copy Magnet Button
+// @namespace    https://github.com/Horyzontalhoror/yts_copymagnet
+// @version      1.0
+// @description  Adds a "Copy Magnet" button to every movie quality on YTS.mx for easy access.
+// @author       Horyzontalhoror
+// @license      MIT
 // @match        https://yts.mx/movies/*
 // @grant        GM_setClipboard
 // @icon         https://raw.githubusercontent.com/Horyzontalhoror/yts_copymagnet/main/icon.png
+// @name:id      YTS.mx - Tombol Salin Magnet
+// @description:id Menambahkan tombol "Salin Magnet" di setiap kualitas film YTS.mx untuk menyalin tautan magnet dengan mudah.
+// @tags         YTS.mx, magnet, torrent
 // ==/UserScript==
 
 (function () {
