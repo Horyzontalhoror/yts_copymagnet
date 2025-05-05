@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         YTS.mx - Tambahkan tombol Copy Magnet
+// @name         YTS.mx - Add Copy Magnet Button
 // @namespace    http://tampermonkey.net/
 // @version      1.3
-// @description  Tambahkan tombol "Copy Magnet" untuk setiap kualitas film di YTS.mx dan tampilkan toast notifikasi dengan ikon setelah menyalin magnet link.
+// @description  Add Copy Magnet Button for each quality of the movie on YTS.mx and display toast notification with icon after copying magnet link.
 // @author       Kamu
 // @match        https://yts.mx/movies/*
 // @grant        GM_setClipboard
@@ -12,7 +12,7 @@
 (function () {
     'use strict';
 
-    // Fungsi menampilkan toast dengan ikon
+    // Function to display toast with icon
     function showToast(message, icon = "🎉") {
         const toast = document.createElement('div');
         toast.innerHTML = `<span style="margin-right: 8px;">${icon}</span>${message}`;
@@ -65,7 +65,7 @@
                 copyBtn.addEventListener("click", (e) => {
                     e.preventDefault();
                     GM_setClipboard(link.href);
-                    showToast("Link magnet berhasil disalin!", "📎");
+                    showToast("Magnet link copied!", "📎");
                 });
 
                 link.parentNode.insertBefore(copyBtn, link.nextSibling);
