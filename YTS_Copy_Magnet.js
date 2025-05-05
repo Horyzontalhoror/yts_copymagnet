@@ -6,6 +6,7 @@
 // @author       Kamu
 // @match        https://yts.mx/movies/*
 // @grant        GM_setClipboard
+// @icon         https://raw.githubusercontent.com/Horyzontalhoror/yts_copymagnet/main/icon.png
 // ==/UserScript==
 
 (function () {
