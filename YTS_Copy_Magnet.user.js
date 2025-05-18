@@ -1,24 +1,30 @@
 // ==UserScript==
-// @name         YTS.mx - Magnet Link Enhancer
+// @name         YTS.mx - Copy Magnet Button
+// @name:id      YTS.mx - Tombol Salin Magnet
 // @namespace    https://github.com/Horyzontalhoror/yts_copymagnet
-// @version      2.0
-// @description  Ubah semua tautan download menjadi magnet dan tambahkan tombol salin di YTS.mx
+// @version      2.1
+// @description  Adds a "Copy Magnet" button to every movie quality on YTS.mx for easy access.
+// @description:id Menambahkan tombol "Salin Magnet" di setiap kualitas film YTS.mx untuk menyalin tautan magnet dengan mudah.
 // @author       Horyzontalhoror
 // @license      MIT
 // @match        https://yts.mx/movies/*
+// @match        https://yts.lt/movies/*
+// @match        https://yts.am/movies/*
+// @match        https://yts.ag/movies/*
 // @grant        GM_setClipboard
 // @icon         https://raw.githubusercontent.com/Horyzontalhoror/yts_copymagnet/main/icon.png
+// @tags         YTS.mx, magnet, torrent
 // ==/UserScript==
 
 (function () {
     'use strict';
 
-    // Membuat magnet link dari hash dan judul
+    // Fungsi membuat magnet link dari hash dan judul
     function magnetify(hashkey, titlekey) {
         return `magnet:?xt=urn:btih:${hashkey}&dn=${titlekey}&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&tr=udp%3A%2F%2F9.rarbg.to%3A2710%2Fannounce&tr=udp%3A%2F%2Fp4p.arenabg.ch%3A1337%2Fannounce&tr=udp%3A%2F%2Ftracker.cyberia.is%3A6969%2Fannounce&tr=http%3A%2F%2Fp4p.arenabg.com%3A1337%2Fannounce&tr=udp%3A%2F%2Fopen.tracker.cl%3A1337%2Fannounce`;
     }
 
-    // Menampilkan notifikasi toast
+    // Fungsi menampilkan notifikasi "toast"
     function showToast(message, icon = "🎉") {
         const toast = document.createElement('div');
         toast.innerHTML = `<span style="margin-right: 8px;">${icon}</span>${message}`;
@@ -47,7 +53,7 @@
         }, 3000);
     }
 
-    // Jalankan saat halaman sudah siap
+    // Eksekusi saat halaman selesai dimuat
     window.addEventListener('load', () => {
         setTimeout(() => {
             const tLinks = Array.from(document.querySelectorAll("a[href*='torrent/download/']"));
@@ -55,18 +61,20 @@
             tLinks.forEach(link => {
                 const tHash = link.href.split("/").pop();
                 const tTitle = encodeURIComponent(
-                    link.getAttribute("title").replace(/^Download\s/, "").replace(/\sTorrent$/, "")
+                    link.getAttribute("title")
+                        .replace(/^Download\s/, "")
+                        .replace(/\sTorrent$/, "")
                 );
                 const magnet = magnetify(tHash, tTitle);
 
-                // Ganti href ke magnet
+                // Ubah href menjadi magnet link
                 link.href = magnet;
                 link.title += " (magnet)";
 
                 // Hindari duplikasi tombol
                 if (link.nextSibling && link.nextSibling.classList?.contains('copy-magnet-btn')) return;
 
-                // Buat tombol salin magnet
+                // Buat tombol "Copy Magnet"
                 const copyBtn = document.createElement("button");
                 copyBtn.textContent = "Copy Magnet";
                 copyBtn.className = "copy-magnet-btn";
@@ -82,6 +90,7 @@
                     fontFamily: "inherit"
                 });
 
+                // Aksi salin magnet saat diklik
                 copyBtn.addEventListener("click", (e) => {
                     e.preventDefault();
                     if (typeof GM_setClipboard === "function") {
@@ -92,8 +101,9 @@
                     }
                 });
 
+                // Sisipkan tombol di samping link
                 link.parentNode.insertBefore(copyBtn, link.nextSibling);
             });
-        }, 1000);
+        }, 1000); // Tunggu elemen muncul
     });
 })();
