@@ -15,56 +15,55 @@
 
 (function () {
     'use strict';
-
-    // Function to display toast with icon
+    
     function showToast(message, icon = "🎉") {
         const toast = document.createElement('div');
         toast.innerHTML = `<span style="margin-right: 8px;">${icon}</span>${message}`;
-        toast.style.position = 'fixed';
-        toast.style.bottom = '20px';
-        toast.style.right = '20px';
-        toast.style.padding = '10px 15px';
-        toast.style.background = '#00e054';
-        toast.style.color = 'white';
-        toast.style.borderRadius = '5px';
-        toast.style.fontWeight = 'bold';
-        toast.style.boxShadow = '0 0 10px rgba(0,0,0,0.3)';
-        toast.style.zIndex = 10000;
-        toast.style.opacity = '1';
-        toast.style.display = 'flex';
-        toast.style.alignItems = 'center';
-        toast.style.transition = 'opacity 0.5s ease';
+        Object.assign(toast.style, {
+            position: 'fixed',
+            bottom: '20px',
+            right: '20px',
+            padding: '10px 15px',
+            background: '#00e054',
+            color: 'white',
+            borderRadius: '5px',
+            fontWeight: 'bold',
+            boxShadow: '0 0 10px rgba(0,0,0,0.3)',
+            zIndex: 10000,
+            opacity: '1',
+            display: 'flex',
+            alignItems: 'center',
+            transition: 'opacity 0.5s ease'
+        });
 
         document.body.appendChild(toast);
-
         setTimeout(() => {
             toast.style.opacity = '0';
-            setTimeout(() => {
-                toast.remove();
-            }, 500);
+            setTimeout(() => toast.remove(), 500);
         }, 3000);
     }
 
-    window.addEventListener('load', function () {
+    document.addEventListener('DOMContentLoaded', function () {
         setTimeout(() => {
             const magnetLinks = document.querySelectorAll('a[href^="magnet:?"]');
 
             magnetLinks.forEach(link => {
-                if (link.nextSibling && link.nextSibling.classList && link.nextSibling.classList.contains('copy-magnet-btn')) {
-                    return;
-                }
+                const container = link.parentNode;
+                if (container.querySelector('.copy-magnet-btn')) return;
 
                 const copyBtn = document.createElement("button");
                 copyBtn.textContent = "Copy Magnet";
                 copyBtn.className = "copy-magnet-btn";
-                copyBtn.style.marginLeft = "10px";
-                copyBtn.style.padding = "5px 10px";
-                copyBtn.style.border = "none";
-                copyBtn.style.background = "#00e054";
-                copyBtn.style.color = "white";
-                copyBtn.style.fontWeight = "bold";
-                copyBtn.style.cursor = "pointer";
-                copyBtn.style.borderRadius = "5px";
+                Object.assign(copyBtn.style, {
+                    marginLeft: "10px",
+                    padding: "5px 10px",
+                    border: "none",
+                    background: "#00e054",
+                    color: "white",
+                    fontWeight: "bold",
+                    cursor: "pointer",
+                    borderRadius: "5px"
+                });
 
                 copyBtn.addEventListener("click", (e) => {
                     e.preventDefault();
@@ -72,9 +71,9 @@
                     showToast("Magnet link copied!", "📎");
                 });
 
-                link.parentNode.insertBefore(copyBtn, link.nextSibling);
+                container.insertBefore(copyBtn, link.nextSibling);
             });
-
-        }, 1000);
+        }, 500);
     });
 })();
+
